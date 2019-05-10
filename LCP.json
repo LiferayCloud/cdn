@@ -7,13 +7,13 @@
   },
   "readinessProbe": {
     "httpGet": {
-      "path": "/cli/latest/wedeploy.sh",
+      "path": "/",
       "port": 80
     }
   },
   "livenessProbe": {
     "httpGet": {
-      "path": "/cli/latest/wedeploy.sh",
+      "path": "/",
       "port": 80
     }
   }
