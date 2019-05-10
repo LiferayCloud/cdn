@@ -1,6 +1,5 @@
 {
   "id": "hosting",
-  "image": "wedeploy/hosting:2.0.1",
   "loadBalancer": {
     "cdn": true,
     "targetPort": 80,
