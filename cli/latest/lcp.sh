@@ -3,7 +3,7 @@
 set -euo pipefail
 IFS=$'\n\t'
 
-RELEASE_CHANNEL=${1:-"stable"}
+RELEASE_CHANNEL=${1:-"unstable"}
 RELEASE_CHANNEL_ADDRESS=""
 
 if [[ $RELEASE_CHANNEL == "help" ]] || [[ $RELEASE_CHANNEL == "--help" ]] || [[ $RELEASE_CHANNEL == "-h" ]]; then
@@ -108,16 +108,18 @@ function setupReleaseChannelAddress() {
 function extractPackage() {
   case $PACKAGE_FORMAT in
     "zip")
-    unzip -o $TEMPDEST -d $DESTDIR lcp >/dev/null
+    unzip -o $TEMPDEST -d $DESTDIR we >/dev/null
     ;;
     "tgz")
-    tar -xzf $TEMPDEST -C $DESTDIR lcp
+    tar -xzf $TEMPDEST -C $DESTDIR we
     ;;
     *)
     echo "Error trying to extract binary from package."
     exit 1
     ;;
 esac
+
+  mv $DESTDIR/we $DESTDIR/lcp
 }
 
 function run() {
