@@ -3,7 +3,7 @@
 set -euo pipefail
 IFS=$'\n\t'
 
-RELEASE_CHANNEL=${1:-"unstable"}
+RELEASE_CHANNEL=${1:-"stable"}
 RELEASE_CHANNEL_ADDRESS=""
 
 if [[ $RELEASE_CHANNEL == "help" ]] || [[ $RELEASE_CHANNEL == "--help" ]] || [[ $RELEASE_CHANNEL == "-h" ]]; then
@@ -64,7 +64,7 @@ function setupAlternateDir() {
 
   echo "No permission to install in $DESTDIR"
   echo "Try again as root or run:"
-  echo "curl https://cdn.wedeploy.com/cli/latest/wedeploy.sh -sL | sudo bash"
+  echo "curl https://cdn.liferay.cloud/cli/latest/lcp.sh -fsSL | sudo bash"
   read -p "Install in [current dir]: " DESTDIR < /dev/tty;
   DESTDIR=${DESTDIR:-$(pwd)}
   DESTDIR=${DESTDIR/"~"/$HOME}
@@ -99,8 +99,8 @@ function setPackageFormat() {
 
 function setupReleaseChannelAddress() {
   case $RELEASE_CHANNEL in
-    "stable") RELEASE_CHANNEL_ADDRESS="8WGbGy94JXa" ;;
-    "unstable") RELEASE_CHANNEL_ADDRESS="5VvYPvs2CSX" ;;
+    "stable") RELEASE_CHANNEL_ADDRESS="kRnXg5EBEtY" ;;
+    "unstable") RELEASE_CHANNEL_ADDRESS="bxVdLEkWuZs" ;;
     *) echo "Error translating release channel glob." exit 1 ;;
   esac
 }
@@ -108,18 +108,16 @@ function setupReleaseChannelAddress() {
 function extractPackage() {
   case $PACKAGE_FORMAT in
     "zip")
-    unzip -o $TEMPDEST -d $DESTDIR we >/dev/null
+    unzip -o $TEMPDEST -d $DESTDIR lcp >/dev/null
     ;;
     "tgz")
-    tar -xzf $TEMPDEST -C $DESTDIR we
+    tar -xzf $TEMPDEST -C $DESTDIR lcp
     ;;
     *)
     echo "Error trying to extract binary from package."
     exit 1
     ;;
 esac
-
-  mv $DESTDIR/we $DESTDIR/lcp
 }
 
 function run() {
