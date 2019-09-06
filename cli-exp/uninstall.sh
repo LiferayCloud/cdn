@@ -12,7 +12,6 @@ Use $0 to uninstall the CLI from your system."
   exit 1
 fi
 
-UNAME="macos"
 EXECUTABLE_FILE=lcp-exp
 
 if [[ -f $(command -v $EXECUTABLE_FILE) ]] ; then

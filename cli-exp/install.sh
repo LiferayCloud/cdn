@@ -13,7 +13,12 @@ Use $0 to install the CLI on your system."
   exit 1
 fi
 
-UNAME="macos"
+UNAME=$(uname | tr '[:upper:]' '[:lower:]')
+
+if [ $UNAME == "darwin" ] ; then
+  UNAME="macos"
+fi
+
 EXECUTABLE_FILE=lcp-exp
 CDNHOST=https://cdn.liferay.cloud
 CDNPATHBASE=cli-exp
