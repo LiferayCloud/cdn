@@ -8,43 +8,22 @@ VERSION=${2:-"latest"}
 
 if [[ $RELEASE_CHANNEL == "help" ]] || [[ $RELEASE_CHANNEL == "--help" ]] || [[ $RELEASE_CHANNEL == "-h" ]]; then
   echo "Liferay Cloud Platform CLI install script:
-
 $0 [channel] [version] [dest]
-
 Use $0 to install the CLI on your system."
   exit 1
 fi
 
-UNAME=$(uname | tr '[:upper:]' '[:lower:]')
-
-if [[ $UNAME == *"windows"* ]] || [[ $UNAME == *"mingw"* ]] || [[ $UNAME == *"cygwin"* ]] ; then
-  UNAME="win"
-elif [ $UNAME == "darwin" ] ; then
-  UNAME="macos"
-fi
-
-FILE=lcp-exp-$UNAME
+UNAME="macos"
 EXECUTABLE_FILE=lcp-exp
-
-if [[ $UNAME == *"win"* ]] ; then
-  EXECUTABLE_FILE=$EXECUTABLE_FILE.exe
-fi
-
-TEMPDEST=$(mktemp 2>/dev/null || mktemp -t 'lcp-exp-cli')
+CDNHOST=https://cdn.liferay.cloud
+CDNPATHBASE=cli-exp
+FILE=$EXECUTABLE_FILE-$UNAME
+TEMPDEST=$(mktemp 2>/dev/null || mktemp -t "'"${EXECUTABLE_FILE}-cli"'")
 
 ec=$(command -v $EXECUTABLE_FILE 2>/dev/null || true)
 
 if [ -n "$ec" ] ; then
   DESTDIR=$(dirname "$(command -v $EXECUTABLE_FILE)")
-elif [ $UNAME == "win" ] ; then
-  IS_MINGWIN=${MSYSTEM:-""}
-  if [ "$HOME" != "" ] && [[ -n $IS_MINGWIN ]] ; then
-    DESTDIR="$HOME/AppData/Local/Programs/lcp-exp/bin"
-  elif [[ $HOMEDRIVE$HOMEPATH != "" ]] ; then
-    DESTDIR="$HOMEDRIVE$HOMEPATH\AppData\Local\Programs\lcp-exp\bin"
-  else
-    DESTDIR="$USERPROFILE\AppData\Local\Programs\lcp-exp\bin"
-  fi
 elif [[ :$PATH: == *:"$HOME/.local/bin":* ]] ; then
   DESTDIR="$HOME/.local/bin"
 elif [[ :$PATH: == *:"$HOME/bin":* ]] ; then
@@ -67,7 +46,7 @@ function setupAlternateDir() {
 
   echo "No permission to install in $DESTDIR"
   echo "Try again as root or run:"
-  echo "curl https://cdn.liferay.cloud/cli-exp/install.sh -fsSL | sudo bash"
+  echo "curl ${CDNHOST}/${CDNPATHBASE}/install.sh -fsSL | sudo bash"
   read -r -p "Install in [current dir]: " DESTDIR < /dev/tty;
   DESTDIR=${DESTDIR:-$(pwd)}
   DESTDIR=${DESTDIR/"~"/$HOME}
@@ -82,7 +61,7 @@ if [ ! -w "$DESTDIR" ] ; then setupAlternateDir ; fi
 echo "Trying to install in $DESTDIR"
 
 function run() {
-  URL=https://cdn.liferay.cloud/cli-exp/${RELEASE_CHANNEL}/$VERSION/$FILE.tgz
+  URL=${CDNHOST}/${CDNPATHBASE}/${RELEASE_CHANNEL}/$VERSION/$FILE.tgz
 
   if [ "$RELEASE_CHANNEL" != "stable" ] ; then
     echo "Downloading from $URL ($RELEASE_CHANNEL channel)."
