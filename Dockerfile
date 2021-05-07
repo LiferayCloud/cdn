@@ -1,3 +1,7 @@
-FROM wedeploy/hosting:2.0.1
+FROM nginx:1.20
 
-ADD . /wedeploy-container
+RUN apt-get update && apt-get -y install curl
+
+COPY /static /static
+
+COPY nginx.conf /etc/nginx/

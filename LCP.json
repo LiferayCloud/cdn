@@ -1,9 +1,8 @@
 {
-  "id": "hosting",
+  "id": "cdn",
   "loadBalancer": {
     "cdn": true,
-    "targetPort": 80,
-    "customDomains": ["cdn.liferay.cloud"]
+    "targetPort": 80
   },
   "readinessProbe": {
     "httpGet": {
