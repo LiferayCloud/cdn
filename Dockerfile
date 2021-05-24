@@ -1,3 +1,5 @@
-FROM wedeploy/hosting:2.0.1
+FROM nginx:1.20
 
-ADD . /wedeploy-container
+COPY /static /static
+
+COPY nginx.conf /etc/nginx/
