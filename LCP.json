@@ -1,5 +1,6 @@
 {
   "id": "cdn",
+  "cpu": 1,
   "loadBalancer": {
     "cdn": true,
     "targetPort": 80,
