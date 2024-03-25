@@ -4,7 +4,7 @@ set -euo pipefail
 IFS=$'\n\t'
 
 RELEASE_CHANNEL=${1:-"stable"}
-VERSION=${2:-"3.14.2"}
+VERSION=${2:-"latest"}
 
 if [[ $RELEASE_CHANNEL == "help" ]] || [[ $RELEASE_CHANNEL == "--help" ]] || [[ $RELEASE_CHANNEL == "-h" ]]; then
   echo "Liferay Cloud Platform CLI install script:
