@@ -162,7 +162,6 @@ function check() {
 
 # Verify direct installation of non-stable version
 # and fix channel on ~/.lcp configuration file automatically.
-# Fix issue https://github.com/wedeploy/cli/issues/472
 function fixChannel() {
   if [[ $RELEASE_CHANNEL == "stable" ]]; then
     return
